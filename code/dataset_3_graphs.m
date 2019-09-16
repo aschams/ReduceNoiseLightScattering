@@ -1,7 +1,7 @@
-FRAG1_Data = '08-26-2016 SF FRAG1 T2.xlsx';
+FRAG1_Data = 'FRAG1 Traces.xlsx';
 
 time = xlsread(FRAG1_Data,'A55:A1078');
-FRAG1_ddH2O = xlsread(FRAG1_Data, 'D55:D1078');
+FRAG1_ddH2O = xlsread(FRAG1_Data, 'C55:C1078');
 
 [FRAG1_ddH2O_DHT10,Matrices] = DiscreteHaarTransform(FRAG1_ddH2O, 10);
 
@@ -69,50 +69,6 @@ filterInv4Pair = [time filterInv4];
 [filterInv4AAFit,filterInv4AATau] = Anishkin_fit(filterInv4Pair,.0555,[-.2 3 .03 .1 .02]);
 filterInv4_2ExpFit = exp2Fit(filterInv4Pair);
 
-%% N = 10 Threshold = 0.01
-n = 10;
-
-threshold4 = .01
-CountUnderThresh = sum(abs(FRAG1_ddH2O_FullDHT2{n}(:)) < threshold4)
-n = 10
-filtered010 = FRAG1_ddH2O_FullDHT2{n};
-for p = 1:dimension
-    for q = 1: col
-        if abs(FRAG1_ddH2O_FullDHT2{n}(p)) < threshold4
-            filtered010(p) = 0;
-        end
-    end
-end
-
-filterInv10 = InverseHaarTransform(filtered010,Matrices,n);
-filtInv1_10_Resid = FRAG1_ddH2O - filterInv10;
-
-filterInv10Pair = [time filterInv10];
-[filterInv10_AAFit,filterInv10_AATau] = Anishkin_fit(filterInv10Pair,.0555,Init);
-filterInv10_2ExpFit = exp2Fit(filterInv10Pair);
-
-%% N = 10 Threshold = 0.05
-n = 10;
-
-threshold4 = .05
-CountUnderThresh = sum(abs(FRAG1_ddH2O_FullDHT2{n}(:)) < threshold4)
-n = 10
-filtered050 = FRAG1_ddH2O_FullDHT2{n};
-for p = 1:dimension
-    for q = 1: col
-        if abs(FRAG1_ddH2O_FullDHT2{n}(p)) < threshold4
-            filtered050(p) = 0;
-        end
-    end
-end
-
-filterInv050 = InverseHaarTransform(filtered050,Matrices,n);
-filtInv1_50_Resid = FRAG1_ddH2O - filterInv050;
-
-filterInv50Pair = [time filterInv050];
-[filterInv20_AAFit,filterInv50_AATau] = Anishkin_fit(filterInv50Pair,.0555,Init);
-filterInv20_2ExpFit = exp2Fit(filterInv50Pair);
-
 %% N = 10 Threshold = 0.1
 n = 10;
 
@@ -178,7 +134,7 @@ filtInv1_1000_Resid = FRAG1_ddH2O - filterInv1000;
 
 filterInv1000Pair = [time filterInv1000];
 
-filterInv1000_2ExpFit = exp2Fit(filterInv1000Pair)
+filterInv1000_2ExpFit = exp2Fit(filterInv1000Pair);
 
 %% N = 5 Threshold = 0.001
 n = 5;
@@ -197,6 +153,7 @@ filtInv_5_1Resid = FRAG1_ddH2O - filterInv_5_1;
 filterInv5_1_Pair = [time filterInv_5_1];
 [filterInv5_1_AAFit,filterInv5_1_AATau] = Anishkin_fit(filterInv5_1_Pair,.0555,Init);
 filterInv5_1_2ExpFit = exp2Fit(filterInv5_1_Pair);
+
 %% N = 5 Threshold = 0.002
 n = 5;
 threshold2 = .002
@@ -216,6 +173,7 @@ filtInv_5_2Resid = FRAG1_ddH2O - filterInv_5_2;
 filterInv5_2_Pair = [time filterInv_5_2];
 [filterInv5_2_AAFit,filterInv5_2_AATau] = Anishkin_fit(filterInv5_2_Pair,.0555,[-.2 .6 .14 .58 .05]);
 filterInv5_2_2ExpFit = exp2Fit(filterInv5_2_Pair);
+
 %% N = 5 Threshold = 0.004
 n = 5;
 threshold4 = .004
@@ -230,14 +188,14 @@ for p = 1:dimension
 end
 
 filterInv5_4 = InverseHaarTransform(filtered_5_004,Matrices,n);
-filtInv1_4_Resid = FRAG1_ddH2O - filterInv5_4;
+filtInv5_4_Resid = FRAG1_ddH2O - filterInv5_4;
 
 
 filterInv5_4_Pair = [time filterInv5_4];
 [filterInv5_4_AAFit,filterInv5_4_AATau] = Anishkin_fit(filterInv5_4_Pair,.0555,[-.25 .1 .4 1 .06]);
 filterInv5_4_2ExpFit = exp2Fit(filterInv5_4_Pair);
 
-%% N = 5 Threshold = 0.2
+%% N = 5 Threshold = 0.1
 n = 5;
 threshold100 = .1
 CountUnderThresh = sum(abs(FRAG1_ddH2O_FullDHT2{n}(:)) < threshold100)
@@ -258,7 +216,7 @@ filterInv5_100_2ExpFit = exp2Fit(filterInv5_100_Pair);
 
 %% N = 5 Threshold = 0.2
 n = 5;
-threshold200 = .1
+threshold200 = .2
 CountUnderThresh = sum(abs(FRAG1_ddH2O_FullDHT2{n}(:)) < threshold200)
 filtered_5_200 = FRAG1_ddH2O_FullDHT2{n};
 for p = 1:dimension
@@ -274,6 +232,26 @@ filtInv5_200Resid = FRAG1_ddH2O - filterInv5_200;
 filterInv5_200_Pair = [time filterInv5_200];
 [filterInv5_200_AAFit,filterInv5_200_AATau] = Anishkin_fit(filterInv5_200_Pair,.0555,[-.3 .5 .2 .4 .05]);
 filterInv5_200_2ExpFit = exp2Fit(filterInv5_200_Pair);
+%% N = 5 Threshold = 1
+n = 5;
+
+threshold4 = 1
+CountUnderThresh = sum(abs(FRAG1_ddH2O_FullDHT2{n}(:)) < threshold4)
+filtered5_1000 = FRAG1_ddH2O_FullDHT2{n};
+for p = 1:dimension
+    for q = 1: col
+        if abs(FRAG1_ddH2O_FullDHT2{n}(p)) < threshold4
+            filtered5_1000(p) = 0;
+        end
+    end
+end
+
+filterInv5_1000 = InverseHaarTransform(filtered5_1000,Matrices,n);
+filtInv1_5_1000_Resid = FRAG1_ddH2O - filterInv5_1000;
+
+filterInv5_1000_Pair = [time filterInv5_1000];
+
+filterInv5_1000_2ExpFit = exp2Fit(filterInv5_1000_Pair);
 
 %% N = 1 Threshold = 0.001
 n = 1;
@@ -290,8 +268,9 @@ filterInv1_1 = InverseHaarTransform(filtered_1_001,Matrices,n);
 filtInv1_1Resid = FRAG1_ddH2O - filterInv1_1;
 
 filterInv1_1_Pair = [time filterInv1_1];
-[filterInv1_1_AAFit,filterInv1_1_AATau] = Anishkin_fit(filterInv1_1_Pair,.0555,[-.2 100 .03 .1 .01]);
+[filterInv1_1_AAFit,filterInv1_1_AATau] = Anishkin_fit(filterInv1_1_Pair,.0555,[.3 .4 0.02 .1 .07]);
 filterInv1_1_2ExpFit = exp2Fit(filterInv1_1_Pair);
+
 %% N = 1 Threshold = 0.002
 n = 1;
 threshold2 = .002
@@ -305,7 +284,7 @@ for p = 1:dimension
     end
 end
 filterInv1_2 = InverseHaarTransform(filtered_1_002,Matrices,n);
-filtInv1_1Resid = FRAG1_ddH2O - filterInv1_1;
+filtInv1_2Resid = FRAG1_ddH2O - filterInv1_2;
 
 
 filterInv1_2_Pair = [time filterInv1_2];
@@ -324,30 +303,12 @@ for p = 1:dimension
     end
 end
 filterInv1_4 = InverseHaarTransform(filtered_1_004,Matrices,n);
-filtInv1_1Resid = FRAG1_ddH2O - filterInv1_1;
+filtInv1_4Resid = FRAG1_ddH2O - filterInv1_4;
 
 filterInv1_4_Pair = [time filterInv1_4];
 [filterInv1_4_AAFit,filterInv1_4_AATau] = Anishkin_fit(filterInv1_4_Pair,.0555,Init);
 filterInv1_4_2ExpFit = exp2Fit(filterInv1_4_Pair);
 
-%% N = 1 Threshold = 0.05
-n = 1;
-threshold4 = .05
-CountUnderThresh = sum(abs(FRAG1_ddH2O_FullDHT2{n}(:)) < threshold4)
-filtered_1_02 = FRAG1_ddH2O_FullDHT2{n};
-for p = 1:dimension
-    for q = 1: col
-        if abs(FRAG1_ddH2O_FullDHT2{n}(p)) < threshold4
-            filtered_1_02(p) = 0;
-        end
-    end
-end
-filterInv1_20 = InverseHaarTransform(filtered_1_02,Matrices,n);
-filtInv1_20Resid = FRAG1_ddH2O - filterInv1_20;
-
-filterInv1_20_Pair = [time filterInv1_20];
-[filterInv1_20_AAFit,filterInv1_20_AATau] = Anishkin_fit(filterInv1_20_Pair,.0555,[-.3 .5 .2 .4 .05]);
-filterInv1_20_2ExpFit = exp2Fit(filterInv1_20_Pair);
 
 %% N = 1 Threshold = 0.1
 n = 1;
@@ -362,14 +323,14 @@ for p = 1:dimension
     end
 end
 filterInv1_10 = InverseHaarTransform(filtered_1_10,Matrices,n);
-filtInv1_20Resid = FRAG1_ddH2O - filterInv1_10;
+filtInv1_100Resid = FRAG1_ddH2O - filterInv1_10;
 
 filterInv1_100_Pair = [time filterInv1_10];
 [filterInv1_100_AAFit,filterInv1_100_AATau] = Anishkin_fit(filterInv1_100_Pair,.0555,[-.3 .5 .2 .4 .05]);
 filterInv1_100_2ExpFit = exp2Fit(filterInv1_100_Pair);
 
 
-%% N = 1 Threshold = 0.1
+%% N = 1 Threshold = 0.2
 n = 1;
 threshold4 = .2
 CountUnderThresh = sum(abs(FRAG1_ddH2O_FullDHT2{n}(:)) < threshold4)
@@ -388,15 +349,34 @@ filterInv1_200_Pair = [time filterInv1_200];
 [filterInv1_200_AAFit,filterInv1_200_AATau] = Anishkin_fit(filterInv1_200_Pair,.0555,[-.3 .5 .2 .4 .05]);
 filterInv1_200_2ExpFit = exp2Fit(filterInv1_200_Pair);
 
-%% Write to Excel
-dest = 'C:\Users\sukharevlab\Documents\Schams\Stopped Flow\All Data\Anishkin Fit Files\Tau\08-26-16 FRAG1 T2 Constants Haar Transform.xlsx';
-% 
-% xlswrite(dest,{'Tau/Uncertainty'},'Sheet1','A3')
-% xlswrite(dest,{'R Squared/Adj'},'Sheet1','A4')
-% 
-% xlswrite(dest,{'Three Eighths'},'Sheet1','K2')
-% xlswrite(dest,ThreeEighthsTau,'K3:L4')
+%% N = 1 Threshold = 1
+n = 1;
 
+threshold4 = 1
+CountUnderThresh = sum(abs(FRAG1_ddH2O_FullDHT2{n}(:)) < threshold4)
+filtered1_1000 = FRAG1_ddH2O_FullDHT2{n};
+for p = 1:dimension
+    for q = 1: col
+        if abs(FRAG1_ddH2O_FullDHT2{n}(p)) < threshold4
+            filtered1_1000(p) = 0;
+        end
+    end
+end
+
+filterInv1_1000 = InverseHaarTransform(filtered1_1000,Matrices,n);
+filtInv1_1_1000_Resid = FRAG1_ddH2O - filterInv1_1000;
+
+filterInv1_1000_Pair = [time filterInv1_1000];
+
+filterInv1_1000_2ExpFit = exp2Fit(filterInv1_1000_Pair);
+
+%% Unfiltered fits
+ddH2O = [time FRAG1_ddH2O];
+[ddH2OFit,ddH2OTau]= Anishkin_fit(ddH2O,0.0555,[.3 .4 0.02 .1 .07]);
+ddH2O2ExpFit =exp2Fit(ddH2O);
+
+%% Write to Excel
+dest = 'C:\Users\sukharevlab\Documents\Schams\Stopped Flow\All Data\Anishkin Fit Files\Tau\08-26-16 000 Constants Haar Transform.xlsx';
 
 xlswrite(dest,{'N = 10'}, 'Sheet1','J2')
 xlswrite(dest,{'N = 5'},'Sheet1','G2')
@@ -432,24 +412,30 @@ xlswrite(dest,{'Threshold = 0.002'},'Sheet2', 'A10')
 xlswrite(dest,{'Threshold = 0.004'},'Sheet2', 'A16')
 
 
+
 xlswrite(dest,filterInv1_2ExpFit,'Sheet2','J4:K8')
 xlswrite(dest,filterInv2_2ExpFit,'Sheet2','J10:K14')
 xlswrite(dest,filterInv4_2ExpFit,'Sheet2','J16:K20')
-xlswrite(dest,filterInv100_2ExpFit,'Sheet2','J22:K26')
-xlswrite(dest,filterInv200_2ExpFit,'Sheet2','J28:K32')
+xlswrite(dest,filterInv10_2ExpFit,'Sheet2','J22:K26')
+xlswrite(dest,filterInv20_2ExpFit,'Sheet2','J28:K32')
+xlswrite(dest,filterInv1000_2ExpFit,'Sheet2','J34:K38')
 
 xlswrite(dest,filterInv5_1_2ExpFit,'Sheet2','G4:H8')
 xlswrite(dest,filterInv5_2_2ExpFit,'Sheet2','G10:H14')
 xlswrite(dest,filterInv5_4_2ExpFit,'Sheet2','G16:H20')
 xlswrite(dest,filterInv5_100_2ExpFit,'Sheet2','G22:H26')
 xlswrite(dest,filterInv5_200_2ExpFit,'Sheet2','G28:H32')
+xlswrite(dest,filterInv5_1000_2ExpFit,'Sheet2','G34:H38')
 
 xlswrite(dest,filterInv1_1_2ExpFit,'Sheet2','D4:E8')
 xlswrite(dest,filterInv1_2_2ExpFit,'Sheet2','D10:E14')
 xlswrite(dest,filterInv1_4_2ExpFit,'Sheet2','D16:E20')
 xlswrite(dest,filterInv1_100_2ExpFit,'Sheet2','D22:E26')
 xlswrite(dest,filterInv1_200_2ExpFit,'Sheet2','D28:E32')
+xlswrite(dest,filterInv1_1000_2ExpFit,'Sheet2','D34:E38')
 
+xlswrite(dest,ddH2OTau,'Sheet3','D4:E5')
+xlswrite(dest,ddH2O2ExpFit,'Sheet3','G4:H8')
 close all
 
 %% 
@@ -478,3 +464,16 @@ axis([ 0 0.512 -.3 .2])
 xlabel('Time')
 ylabel('Cell Scattering')
 title('')
+
+%% 
+figure
+plot(time,filtInv1Resid)
+title('N = 10, threshold < 0.001 (Data Set 3)')
+xlabel('Time (s)')
+ylabel('Residual')
+
+figure
+plot(time,filterInv1,time,FRAG1_ddH2O)
+title('N = 10, threshold < 0.001 (Data Set 3)')
+xlabel('Time (s)')
+ylabel('Light Scattering (V)')
